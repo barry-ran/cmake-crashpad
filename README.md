@@ -18,3 +18,11 @@ cmake项目集成crashpad（win&mac平台）
 - [crashpad编译官方教程](https://chromium.googlesource.com/crashpad/crashpad/+/HEAD/doc/developing.md)
 
 - [crashpad上报dump到backtrace教程](https://support.backtrace.io/hc/en-us/articles/360040516131-Crashpad-Integration-Guide#InitialIntegration)
+
+# 扩展阅读
+## 关于windows下SetUnhandledExceptionFilter不能捕获所有异常的相关调研
+- [windows下异常处理相关介绍](http://crashrpt.sourceforge.net/docs/html/exception_handling.html)
+- [stackoverflow上的相关讨论](https://stackoverflow.com/questions/13591334/what-actions-do-i-need-to-take-to-get-a-crash-dump-in-all-error-scenarios)
+- [SetUnhandledExceptionFilter和CRT](https://www.codeproject.com/Articles/154686/SetUnhandledExceptionFilter-and-the-C-C-Runtime-Li)
+- [当crash捕获不生效的时候](https://randomascii.wordpress.com/2012/07/05/when-even-crashing-doesnt-work/)
+- [SEH](https://docs.microsoft.com/en-us/cpp/cpp/structured-exception-handling-c-cpp?view=msvc-170)
