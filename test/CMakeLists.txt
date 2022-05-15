@@ -68,8 +68,24 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
         $<$<NOT:$<CONFIG:Debug>>:util>
     )
 
-    get_target_property(CRASH_HANDLER_OUTPUT_PATH test RUNTIME_OUTPUT_DIRECTORY)
     add_custom_command(TARGET test POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../crashpad/bin/crashpad_handler.exe" $<TARGET_FILE_DIR:test>
+    )
+endif()
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    target_link_libraries(test PRIVATE
+        client
+        base
+        util
+        mig_output
+        bsm
+        "-framework AppKit"
+        "-framework Security"
+        "-framework IOKit"
+    )
+
+    add_custom_command(TARGET test POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/../crashpad/bin/crashpad_handler" $<TARGET_FILE_DIR:test>
     )
 endif()

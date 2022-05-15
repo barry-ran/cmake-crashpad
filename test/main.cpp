@@ -27,14 +27,15 @@ bool initializeCrashpad() {
 
 #if defined(Q_OS_WIN)
     base::FilePath handleDir((exeDir + "/crashpad_handler.exe").toStdWString());
+    base::FilePath reportsDir(exeDir.toStdWString());
+    base::FilePath metricsDir(exeDir.toStdWString());
 #endif
 
 #if defined(Q_OS_MAC)
-    base::FilePath handleDir((exeDir + "/crashpad_handler").toStdWString());
+    base::FilePath handleDir((exeDir + "/crashpad_handler").toStdString());
+    base::FilePath reportsDir(exeDir.toStdString());
+    base::FilePath metricsDir(exeDir.toStdString());
 #endif
-
-    base::FilePath reportsDir(exeDir.toStdWString());
-    base::FilePath metricsDir(exeDir.toStdWString());
 
     // BugSplat database url
     QString url = "http://cmake_crashpad.bugsplat.com/post/bp/crash/crashpad.php";
