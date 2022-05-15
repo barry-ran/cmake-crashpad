@@ -117,6 +117,7 @@ case "$(uname)" in
     cp out/$2/obj/client/libclient.a $LIB_DIR
     cp out/$2/obj/util/libutil.a $LIB_DIR
     cp out/$2/obj/third_party/mini_chromium/mini_chromium/base/libbase.a $LIB_DIR
+    cp out/$2/obj/util/libmig_output.a $LIB_DIR
 
     # bin
     BIN_DIR=$ROOT_DIR/bin
