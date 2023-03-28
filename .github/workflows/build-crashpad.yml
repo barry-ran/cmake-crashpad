@@ -1,0 +1,53 @@
+name: build crashpad
+
+# 手动触发github actions
+on: workflow_dispatch
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+         # windows-latest会始终保持最新（目前是2022）
+         # windows server 2019安装的是vs2019，windows server 2016安装的是vs2017
+         # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+         - windows-2019
+         # 注意如果编译旧版crashpad使用macos-10.15，macos-11编译旧版crashpad会有这个问题 https://bugs.chromium.org/p/chromium/issues/detail?id=1265179
+         - macos-10.15
+
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      
+      - name: build on macOS
+        if: runner.os == 'macOS'
+        run: |
+          chmod +x ./build-crashpad.sh
+          ./build-crashpad.sh
+        shell: bash
+
+      - name: build on windows
+        if: runner.os == 'Windows'
+        run: |
+          call "C:\Program Files\Git\bin\bash.EXE" --noprofile --norc -e -o pipefail build-crashpad.sh
+        shell: cmd
+
+      - uses: actions/upload-artifact@v1
+        if: runner.os == 'macOS'
+        with:
+          name: Mac-x64.zip
+          path: crashpad/Mac-x64          
+      
+      - uses: actions/upload-artifact@v1
+        if: runner.os == 'Windows'
+        with:
+          name: Windows-x64.zip
+          path: crashpad/Windows-x64            
+      
+      - uses: actions/upload-artifact@v1
+        if: runner.os == 'Windows'
+        with:
+          name: Windows-x86.zip
+          path: crashpad/Windows-x86
